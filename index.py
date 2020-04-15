@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 import flask
 
-from app import app
+from app import app, server
 from apps import daily_dashboard
 from helpers import render_project_card, render_col_section, render_fluid_section
 
