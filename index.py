@@ -94,7 +94,7 @@ def serve_layout():
         return url_bar_and_content_div
     return html.Div([
         url_bar_and_content_div,
-        index_layout
+        index_layout,
         daily_dashboard.layout
     ])
 
