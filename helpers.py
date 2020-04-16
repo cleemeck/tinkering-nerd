@@ -23,7 +23,7 @@ def render_project_card(card_img, card_title, card_text, card_id, button_href):
         id=card_id,
         className='h-100'
     )
-    return dbc.Col(card, md=6, lg=4, className='mb-4')
+    return dbc.Col(card, md=12, lg=4, className='mb-4')
 
 
 def render_col_section(section_title: str, section_id: str, cols: list):
