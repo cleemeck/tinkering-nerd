@@ -7,7 +7,7 @@ import dash_bootstrap_components as dbc
 def render_project_card(card_img, card_title, card_text, card_id, button_href):
     card = dbc.Card(
         children=[
-            dbc.CardImg(src=card_img),
+            dbc.CardImg(src=card_img, className='p-3'),
             dbc.CardBody(
                 children=[
                     html.H4(card_title, className='card-title'),
@@ -16,6 +16,7 @@ def render_project_card(card_img, card_title, card_text, card_id, button_href):
                         'Let me see that',
                         className='stretched-link',
                         color='primary',
+                        external_link=True,
                         href=button_href)
                 ]
             )

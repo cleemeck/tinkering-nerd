@@ -8,6 +8,7 @@ from app import app
 import pandas as pd
 import numpy as np
 import datetime as dt
+from templates import plotly_templates
 
 
 def convert_date(str_date):
@@ -17,12 +18,12 @@ def convert_date(str_date):
 
 
 # loading data
-COVID_STATES = ['Confirmed', 'Deaths', 'Recovered']
+COVID_STATES = ['confirmed', 'deaths', 'recovered']
 COVID_COLORS = ['warning', 'danger', 'success']
 
 
-urls = [f'https://raw.githubusercontent.com/bumbeishvili/'
-        f'covid19-daily-data/master/time_series_19-covid-{i}.csv'
+urls = [f'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/'
+        f'csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_{i}_global.csv'
         for i in COVID_STATES]
 
 
@@ -32,7 +33,6 @@ STR_TO_DATE = {str_date: convert_date(str_date) for str_date in DAYS}
 
 # need to rename date columns to avoid constant conversions later
 [df.rename(columns=STR_TO_DATE, inplace=True) for df in [CONFIRMED, DEATHS, RECOVERED]]
-
 ALL_DFS = [CONFIRMED, DEATHS, RECOVERED]
 DAYS_FOR_DISPLAY = list(CONFIRMED.columns)
 
@@ -47,32 +47,13 @@ def draw_infection_map(df, day):
             size=abs(df[day]/50),
             sizemode='area',
             color='#f0ad4e'
-        )
-    )
-
-
-    layout = go.Layout(
-        margin=dict(l=0, r=0, t=0, b=0),
-        geo=dict(
-            projection=dict(type='natural earth'),
-            landcolor='#4E5D6C',
-            showocean=True,
-            oceancolor='#4E5D6C',
-            showcountries=True,
-            countrycolor='#868e96',
-            coastlinecolor='#868e96',
-            showframe=False,
-            framewidth=0,
-            bgcolor='#4E5D6C'
         ),
-        paper_bgcolor='#4E5D6C',
-        transition=dict(
-            duration=500,
-            easing='cubic-in-out'
-        )
+        text=df['Country/Region'],
+        hovertemplate='<b>%{text}</b> %{marker.size}'
     )
 
-    fig = go.Figure(data=[map_trace], layout=layout)
+    fig = go.Figure(data=[map_trace])
+    fig.update_layout(template=plotly_templates.tn_superhero_template)
     return fig
 
 
@@ -105,30 +86,12 @@ def draw_curve(df1, df2, df3,  day):
             color='#5cb85c')
     )
 
-    curve_layout = go.Layout(
-        margin=dict(l=0, r=0, t=0, b=0),
-        paper_bgcolor='#4E5D6C',
-        plot_bgcolor='#4E5D6C',
-        barmode='overlay',
-        xaxis=dict(
-            color='#fff',
-            zeroline=False,
-            title=dict(
-                text='Date')
-        ),
-        yaxis=dict(
-            showgrid=False,
-            zeroline=False,
-            color='#fff',
-            title=dict(
-                text='Number of Cases')
-        ),
-        legend=dict(
-            x=0.7,
-            font=dict(
-                color='#fff'
-            )))
-    fig = go.Figure([df1_curve_trace, df2_curve_trace, df3_curve_trace], curve_layout)
+    fig = go.Figure([df1_curve_trace, df2_curve_trace, df3_curve_trace])
+    fig.update_layout(
+        template=plotly_templates.tn_superhero_template,
+        yaxis=dict(title='Number of cases'),
+        xaxis=dict(title='Date')
+    )
     return fig
 
 
@@ -136,7 +99,7 @@ def render_kpi_card(covid_state, color):
     kpi_card = dbc.Col(
         dbc.Card(
             children=[
-                dbc.CardHeader(html.H4(covid_state), style={'font-size': '1.1vw', 'text-align': 'center'}),
+                dbc.CardHeader(html.H4(covid_state.capitalize()), style={'font-size': '1.1vw', 'text-align': 'center'}),
                 dbc.CardBody(
                     children=[
                         dbc.Row(

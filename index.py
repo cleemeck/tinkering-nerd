@@ -18,9 +18,9 @@ index_layout = html.Div(
     children=[
         dbc.NavbarSimple(
             children=[
-                dbc.NavItem(dbc.NavLink('Projects', href='#', target='about-anchor')),
-                dbc.NavItem(dbc.NavLink('About', href='#')),
-                dbc.NavItem(dbc.NavLink('Contact', href='#'))
+                dbc.NavItem(dbc.NavLink('Projects',)),
+                dbc.NavItem(dbc.NavLink('About',)),
+                dbc.NavItem(dbc.NavLink('Contact',))
             ],
             fluid=True,
             dark=True,
@@ -55,7 +55,7 @@ index_layout = html.Div(
             section_id='projects-section',
             cols=[
                 render_project_card(
-                    card_img='/static/images/covid-19.png',
+                    card_img='/static/images/virus.png',
                     card_title='Coronavirus Analytics',
                     card_text='Simple dashboard with plotly.',
                     card_id='covid19-card',
@@ -67,11 +67,11 @@ index_layout = html.Div(
                     card_id='women-olympics-card',
                     button_href='apps/women-olympics'),
                 render_project_card(
-                    card_img='/static/images/covid-19.png',
-                    card_title='Placeholder',
-                    card_text='Some placeholder here.',
-                    card_id='placeholder-card',
-                    button_href='apps/placeholder'),
+                    card_img='/static/images/nlp.png',
+                    card_title='Natural Language Processing',
+                    card_text='Some experiments with NLP',
+                    card_id='nlp-card',
+                    button_href='apps/nlp'),
             ]),
         render_fluid_section(
             section_title='About Me',
